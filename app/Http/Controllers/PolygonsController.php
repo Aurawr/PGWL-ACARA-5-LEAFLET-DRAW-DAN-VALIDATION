@@ -102,6 +102,21 @@ class PolygonsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        //Memcari nama file gambar berdasarkan id polygon
+        $image = $this->polygons->find($id)->value('image');
+         // Hapus data ke database
+        if(!$this->polygons->destroy($id)) {
+            return redirect()->route('map')->with('error', 'Failed to delete polygon.');
+        }
+
+        //Hapus file gambar jika ada
+        if ($image != null) {
+            if (file_exists('./storage/images/' . $image)) {
+                unlink('./storage/images/' . $image);
+            }
+        }
+
+        // Kembali ke halaman peta
+        return redirect()->route('map')->with('success', 'Polygon deleted successfully.');
     }
 }

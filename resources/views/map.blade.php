@@ -157,7 +157,7 @@
 
     // add OpenStreetMap tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 15,
+        maxZoom: 19,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
@@ -235,13 +235,24 @@
 
 	// onEachFeature
      onEachFeature: function (feature, layer) {
+
+    // Route delete point
+    var routedelete = "{{ route('points.delete', ':id') }}";
+    routedelete = routedelete.replace(':id', feature.properties.id);
+
 	// variable popup content
 	    var popup_content = "Nama: " + feature.properties.name + "<br>" +
 		"Deskripsi: " + feature.properties.description + "<br>" +
         "Dibuat: " + feature.properties.created_at + "<br>" +
         "<img src='{{ asset('storage/images/') }}/" +
-        feature.properties.image + "' alt='' class='img-thumbnail' width='400'>"
-        ;
+        feature.properties.image + "' alt='' class='img-thumbnail' width='400'>" +
+        "<br><br>" +
+        "<form action='"+ routedelete + "' method='post'>" +
+        '@csrf' +
+        '@method('delete')' +
+         "<button type='submit' class='btn btn-sm btn-danger' " +
+        "onclick=\"return confirm('Are you sure you want to delete this feature?')\">" +
+        "Delete</button></form>";
 
 	    layer.on({
 		    click: function (e) {
@@ -261,15 +272,28 @@
     var polylines = L.geoJSON(null, {
 	// Style
 
+
 	// onEachFeature
-     onEachFeature: function (feature, layer) {
-	// variable popup content
+    onEachFeature: function (feature, layer) {
+
+        // Route delete point
+        var routedelete = "{{ route('polylines.delete', ':id') }}";
+        routedelete = routedelete.replace(':id', feature.properties.id);
+
+	    // variable popup content
 	    var popup_content = "Nama: " + feature.properties.name + "<br>" +
 		"Deskripsi: " + feature.properties.description + "<br>" +
         "Dibuat: " + feature.properties.created_at + "<br>" +
         "<img src='{{ asset('storage/images/') }}/" +
-        feature.properties.image + "' alt='' class='img-thumbnail' width='400'>"
-        ;
+        feature.properties.image + "' alt='' class='img-thumbnail' width='400'>" +
+        "<br><br>" +
+        "<form action='"+ routedelete + "' method='post'>" +
+        '@csrf' +
+        '@method('delete')' +
+         "<button type='submit' class='btn btn-sm btn-danger' " +
+        "onclick=\"return confirm('Are you sure you want to delete this feature?')\">" +
+        "Delete</button></form>";
+
 
 	    layer.on({
 		    click: function (e) {
@@ -291,13 +315,25 @@
 
 	// onEachFeature
      onEachFeature: function (feature, layer) {
+
+        // Route delete polygon
+        var routedelete = "{{ route('polygons.delete', ':id') }}";
+        routedelete = routedelete.replace(':id', feature.properties.id);
+
 	// variable popup content
 	    var popup_content = "Nama: " + feature.properties.name + "<br>" +
 		"Deskripsi: " + feature.properties.description + "<br>" +
         "Dibuat: " + feature.properties.created_at + "<br>" +
         "<img src='{{ asset('storage/images/') }}/" +
-        feature.properties.image + "' alt='' class='img-thumbnail' width='400'>"
-        ;
+        feature.properties.image + "' alt='' class='img-thumbnail' width='400'>" +
+        "<br><br>" +
+        "<form action='"+ routedelete + "' method='post'>" +
+        '@csrf' +
+        '@method('delete')' +
+         "<button type='submit' class='btn btn-sm btn-danger' " +
+        "onclick=\"return confirm('Are you sure you want to delete this feature?')\">" +
+        "Delete</button></form>";
+
 
 	    layer.on({
 		    click: function (e) {
